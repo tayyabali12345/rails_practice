@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class FollowingsController < ApplicationController
-  # before_action :set_product, only: %i[update destroy]
-  # before_action :set_comment, only: %i[create]
-
   def create
     @topic_followed=current_user.user_topics.new(topic_id: params[:topic_id])
     respond_to do |format|
@@ -17,7 +14,6 @@ class FollowingsController < ApplicationController
     end
   end
 
-
   def destroy
     respond_to do |format|
       if current_user.user_topics.find_by(topic_id: params[:id]).delete
@@ -28,9 +24,4 @@ class FollowingsController < ApplicationController
       end
     end
   end
-
-  private
-
-
-
 end

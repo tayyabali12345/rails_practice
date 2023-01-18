@@ -2,10 +2,8 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: %i[show]
   before_action :set_create, only: %i[create]
 
-
   def index
     @questions = Topic.find(params[:topic_id]).questions
-
   end
 
   def create
@@ -22,10 +20,10 @@ class QuestionsController < ApplicationController
     end
   end
 
+
   def show
-
   end
-
+  
   def new
     @question = Question.new
     @topics = Topic.all
@@ -49,5 +47,4 @@ class QuestionsController < ApplicationController
   def question_params
     params.require(:question).permit(:subject, :description)
   end
-
 end

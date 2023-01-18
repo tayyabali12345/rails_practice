@@ -26,7 +26,7 @@ class AnswersController < ApplicationController
 
   def update
     respond_to do |format|
-      if @comments.update(comment_params)
+      if @answer.update(likes: likes+1)
         format.html { redirect_to product_path(@product), notice: 'Comment was successfully updated.' }
         format.json { render :show, status: :ok, location: @product }
       else
@@ -53,14 +53,14 @@ class AnswersController < ApplicationController
   def set_comment
     @answer = Answer.new(comment_params)
     @answer.user_id= current_user.id
-    byebug
     @answer.question_id = params[:question_id]
   end
 
   def set_ids
-    @comments = Comment.find(params[:id])
+    byebug
+    @answer = Answer.find(params[:id])
   rescue StandardError
-    flash['alert'] = 'Sorry comment was not found. Please try again'
+    flash['alert'] = 'Sorry answer was not found. Please try again'
     redirect_to root_path
   end
 

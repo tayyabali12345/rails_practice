@@ -4,7 +4,6 @@ class TopicsController < ApplicationController
   before_action :set_topic, only: %i[show edit update destroy]
   before_action :set_flag, only: %i[update]
   before_action :set_create, only: %i[create]
-  #before_action :set_list, only: %i[index]
 
   def index
     @searched = Topic.ransack(params[:q])
@@ -16,10 +15,6 @@ class TopicsController < ApplicationController
 
   def new
     @topic = Topic.new
-  end
-
-  def edit
-    authorize @product
   end
 
   def create
@@ -34,38 +29,12 @@ class TopicsController < ApplicationController
     end
   end
 
-  def update
-    respond_to do |format|
-      if @product.update(product_params)
-        send_email
-        format.html { redirect_to product_path(@product), notice: 'Product was successfully updated.' }
-        format.json { render :show, status: :ok, location: @product }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def destroy
-    authorize @product
-    respond_to do |format|
-      if @product.destroy
-        format.html { redirect_to products_path, notice: 'Product was successfully destroyed.' }
-        format.json { head :no_content }
-      else
-        format.html { redirect_to products_path, status: :unprocessable_entity }
-        format.json { render json: @product.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   private
 
   def set_topic
     @topic = Topic.find(params[:id])
   rescue StandardError
-    flash['alert'] = 'Sorry product was not found. Please try again'
+    flash['alert'] = 'Sorry topic was not found. Please try again'
     redirect_to root_path
   end
 
@@ -77,5 +46,4 @@ class TopicsController < ApplicationController
   def topic_params
     params.require(:topic).permit(:title, :description, :image)
   end
-
 end

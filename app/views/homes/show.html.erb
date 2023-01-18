@@ -38,23 +38,32 @@
       <td><%= link_to question do %><i class="bi bi-hand-thumbs-up"></i><% end %></td>
       <td><%= render 'answers/form', :locals => { :answer => question.answers.new } %></td>
     </tr>
+    <tr>
+    <td><%='Answers!' %></td>
+    </tr>
 
 
       <%question.answers.order(likes: :desc).limit(2).each do |answer|%>
       <tr>
 
         <td><%= answer.description%></td>
-        <td><%=answer.likes%></td>
+        <td>
+        <%= form_with url: answer_path(answer.id), method: :patch do |form| %>
+                      <%= form.submit answer.likes%>
+                 <% end %>
+                 </td>
+
+
+
+
+
+        <%# <td><%= link_to answer.likes, topics_path, :class=>'btn btn-success' %>
+        <%# <td><%=answer.likes%>
         <td><%=answer.dislikes%></td>
       </tr>
 
 
       <%end%>
-
-
-
-
-
 
       <% end %>
   </tbody>
