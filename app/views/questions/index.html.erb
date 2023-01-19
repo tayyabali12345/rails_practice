@@ -1,0 +1,48 @@
+
+<h2 >The Question Posted!</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th><%='SUBJECT'%></th>
+      <th><%='DESCRIPTION'%></th>
+      <th><%='LIKES'%></th>
+      <th><%='DISLIKES'%></th>
+      <th><%='ACTIONS'%></th>
+    </tr>
+    <% @questions.each do |question| %>
+    <tr>
+      <td><%=question.subject%></td>
+      <td><%=question.description%></td>
+      <td><%=question.likes%></td>
+      <td><%=question.dislikes%></td>
+      <td><%= link_to 'Show', question, :class=>"btn btn-primary" %></td>
+      <td><%= link_to question do %><i class="bi bi-hand-thumbs-up"></i><% end %></td>
+      <td><%= render 'answers/form', :locals => { :answer => question.answers.new } %></td>
+    </tr>
+
+
+      <%question.answers.order(likes: :desc).limit(2).each do |answer|%>
+      <tr>
+
+        <td><%= answer.description%></td>
+        <td><%=answer.likes%></td>
+        <td><%=answer.dislikes%></td>
+      </tr>
+
+
+      <%end%>
+
+
+
+
+
+
+      <% end %>
+  </tbody>
+</table>

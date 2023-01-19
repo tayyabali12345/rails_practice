@@ -1,0 +1,30 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <%= form_with(model: topic, local: true) do |f| %>
+
+      <div class="field">
+        <%= f.label :title %><br />
+        <%= f.text_field :title, required: true  %>
+      </div>
+
+      <div class="field">
+        <%= f.label :Desription %><br />
+        <%= f.text_field :description, required: true %>
+      </div>
+
+
+      <div class="fieldl">
+          <%= f.label :Image %><br />
+          <%= f.file_field :image, accept: '.gif, .png, .jpg, .jpeg' %>
+
+          <% if topic.image.attached? %>
+            <%= cl_image_tag topic.image.key, :width=>150, :crop=>"fill" %>
+          <% end %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit %>
+      </div>
+    <% end %>
+  </div>
+</div>

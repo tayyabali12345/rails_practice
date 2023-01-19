@@ -1,0 +1,12 @@
+<div class="com">
+  <div class="container-fluid">
+    <div class="justify-content-center">
+        <h4><%=comment.user.email%></h4>
+        <p><%=comment.description%></p>
+        <% if policy(comment).edit? %>
+          <%= link_to 'Edit Comment', edit_product_comment_path(comment), :class=>'btn btn-info' %>
+          <%= link_to "Delete", [@product, comment], method: :delete,data: { confirm: "You sure? "}, class: "btn btn-danger"%>
+        <%end%>
+    </div>
+  </div>
+</div>
