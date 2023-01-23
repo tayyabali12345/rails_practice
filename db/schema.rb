@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_23_135033) do
+ActiveRecord::Schema.define(version: 2023_01_23_163717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2023_01_23_135033) do
   end
 
   create_table "answers", force: :cascade do |t|
-    t.string "description"
+    t.string "description", default: ""
     t.integer "likes", default: 0
     t.integer "dislikes", default: 0
     t.datetime "created_at", null: false
@@ -49,8 +49,8 @@ ActiveRecord::Schema.define(version: 2023_01_23_135033) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.string "subject"
-    t.string "description"
+    t.string "subject", default: ""
+    t.string "description", default: ""
     t.integer "likes", default: 0
     t.integer "dislikes", default: 0
     t.datetime "created_at", null: false
@@ -69,8 +69,8 @@ ActiveRecord::Schema.define(version: 2023_01_23_135033) do
   end
 
   create_table "topics", force: :cascade do |t|
-    t.string "title"
-    t.string "description"
+    t.string "title", default: ""
+    t.string "description", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
@@ -102,8 +102,7 @@ ActiveRecord::Schema.define(version: 2023_01_23_135033) do
     t.string "unconfirmed_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_type"
-    t.integer "age"
+    t.integer "age", default: 18
     t.string "gender", limit: 1, default: "M"
     t.string "username", default: ""
     t.index ["email"], name: "index_users_on_email", unique: true

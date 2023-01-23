@@ -1,24 +1,18 @@
 <%= form_with(model: question, local: true) do |f| %>
-
   <div class="field">
     <%= f.label :Subject %><br />
-    <%= f.text_field :subject %>
+    <%= f.text_field :subject, required: true %>
   </div>
-
   <div class="field">
     <%= f.label :Desription %><br />
-    <%= f.text_field :description %>
+    <%= f.text_field :description, required: true %>
   </div>
-
   <div class="field">
     <%= f.label :Select_Topics %><br />
-
       <% Topic.all().each do |item|%>
         <%=item.title%>
         <input type="checkbox" name="tag_ids[]" value=<%=item.id%> />
-
       <%end%>
-
   </div>
   <div class="actions">
     <%= f.submit %>

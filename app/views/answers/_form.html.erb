@@ -1,12 +1,10 @@
 
 <%= form_for(answer = local_assigns[:locals][:answer]) do |f| %>
   <div class="field">
-    <%= f.text_area :description, placeholder: "Compose new answer..." %>
+    <%= f.text_area :description, placeholder: "Compose new answer...", required: true %>
   </div>
   <input type="number" value=<%=answer.question_id%> name="question_id" id="question_id" hidden/>
-
   <div class="actions">
-
     <%= f.button :submit, label: 'ADD Answer',:class=>"btn btn-info" %>
   </div>
 <% end %>

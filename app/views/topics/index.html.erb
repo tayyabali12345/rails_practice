@@ -5,10 +5,7 @@
   <%= f.search_field :title_cont , html:{autocomplete: "false"} %>
   <%= f.submit %>
 <% end %>
-
-<br>
-<br>
-
+<br><br>
 <table>
   <thead>
     <tr>
@@ -22,20 +19,16 @@
       <th colspan="2"><%='ACTIONS'%></th>
     </tr>
     <% @topics.each do |topic| %>
-    <tr>
-      <td><%=topic.title%></td>
-      <td><%=topic.description%></td>
-      <td>
-
-      <%= form_tag url_for(controller: 'questions', action: 'index'), method: 'get' do |f| %>
-                        <input type="number" value=<%=topic.id%> name="topic_id" id="product_id" hidden/>
-                        <input type="submit" value="Show Questions">
-      <% end %>
-      </td>
-
-       <td>
-
-
+      <tr>
+        <td><%=topic.title%></td>
+        <td><%=topic.description%></td>
+        <td>
+          <%= form_tag url_for(controller: 'questions', action: 'index'), method: 'get' do |f| %>
+                            <input type="number" value=<%=topic.id%> name="topic_id" id="product_id" hidden/>
+                            <input type="submit" value="Show Questions">
+          <% end %>
+        </td>
+        <td>
             <%if current_user.user_topics.find_by(topic_id: topic.id)!=nil %>
                   <%= form_with url: following_path(topic.id), method: :delete do |form| %>
                       <%= form.submit "Unfollow", :class=> "btn btn-warning"%>
@@ -45,13 +38,10 @@
                         <input type="number" value=<%=topic.id%> name="topic_id" id="topic_id" hidden/>
                         <input type="submit" value="Follow">
                 <% end %>
-             <%end%>
-
+              <%end%>
         </td>
-
-
-    </tr>
-     <% end %>
+      </tr>
+    <% end %>
   </tbody>
 </table>
 
