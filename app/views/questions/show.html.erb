@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<%= link_to 'Back', root_path, :class=>"btn btn-primary"  %>
+<br><br>
+<h4>Subject: <%=@question.subject%></h4>
+<p>Description: <%=@question.description%></p>
+<br>
+<h6>Answers Posted!</h6>
+
+    <table>
+      <thead>
+        <tr>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th><%='ANSWER'%></th>
+          <th><%='LIKES'%></th>
+          <th><%='DISLIKES'%></th>
+        </tr>
+        <% @answers.each do |list| %>
+          <tr>
+            <td><%=list.description%></td>
+            <td><%=list.likes%></td>
+            <td><%=list.dislikes%></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+
+
