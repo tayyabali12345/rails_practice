@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
+  before_action :set_session, only: %i[dislike_answer like_answer]
   before_action :set_ids, only: %i[dislike_answer like_answer]
   before_action :set_answer, only: %i[create]
 
@@ -17,7 +18,6 @@ class AnswersController < ApplicationController
   def like_answer
     @answer.increment(:likes, 1)
     @answer.save
-    session[:answer_likes] ||= []
     session[:answer_likes].append(@answer.id)
     redirect_to root_path
   end
@@ -25,7 +25,6 @@ class AnswersController < ApplicationController
   def dislike_answer
     @answer.increment(:dislikes, 1)
     @answer.save
-    session[:answer_dislikes] ||= []
     session[:answer_dislikes].append(@answer.id)
     redirect_to root_path
   end
@@ -43,6 +42,11 @@ class AnswersController < ApplicationController
   rescue StandardError
     flash['alert'] = t('alert')
     redirect_to root_path
+  end
+
+  def set_session
+    session[:answer_dislikes] ||= []
+    session[:answer_likes] ||= []
   end
 
   def answer_params

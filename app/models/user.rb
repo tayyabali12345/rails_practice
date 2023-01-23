@@ -11,7 +11,7 @@ class User < ApplicationRecord
             content_type: %i[gif png jpg jpeg],
             size: { less_than: 1.megabytes }
   validates :first_name, :last_name, :age, :gender, presence: true
-  validates :age, numericality: { only_integer: true, greater_than: 0, max: 100 }
+  validates :age, numericality: { only_integer: true, greater_than: 17, max: 100 }
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
