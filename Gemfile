@@ -49,22 +49,22 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
-  gem 'rspec-rails'
   gem 'faker'
   gem 'rails-controller-testing'
-  #gem 'active_storage_validations', '~> 0.9.8'
+  gem 'rspec-rails'
+  # gem 'active_storage_validations', '~> 0.9.8'
 end
 
 group :test do
-  gem 'simplecov'
   gem 'capybara', '>= 2.15', '< 4.0'
   gem 'chromedriver-helper'
   gem 'selenium-webdriver', '~> 2.35.1'
   gem 'shoulda-matchers', '~> 5.0'
+  gem 'simplecov'
 end
 
-gem 'cloudinary'
 gem 'active_storage_validations'
+gem 'cloudinary'
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
@@ -74,8 +74,6 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   # gem 'jquery-rails'
-
-  gem 'active_storage_validations'
   gem 'image_processing'
   gem 'jquery-rails', '~> 4.3', '>= 4.3.3'
   gem 'paypal-checkout-sdk'
@@ -89,11 +87,12 @@ group :development do
     gem 'rubocop-minitest'
     gem 'rubocop-performance'
     gem 'rubocop-rails'
+    gem 'rubocop-rspec'
     # or gem 'rubocop-rspec' depending on your test suite
   end
 
-  gem 'rack-cors'
   gem 'active_model_serializers', '~> 0.10.2'
+  gem 'rack-cors'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

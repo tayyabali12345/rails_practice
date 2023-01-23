@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class TopicsController < ApplicationController
-  before_action :set_topic, only: %i[show edit update destroy]
-  before_action :set_flag, only: %i[update]
+  before_action :set_topic, only: %i[show]
   before_action :set_create, only: %i[create]
 
   def index
@@ -10,8 +9,7 @@ class TopicsController < ApplicationController
     @topics = @searched.result(distinct: true)
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @topic = Topic.new
@@ -20,11 +18,9 @@ class TopicsController < ApplicationController
   def create
     respond_to do |format|
       if @topic.save
-        format.html { redirect_to topic_path(@topic), notice: 'topic was successfully created.' }
-        format.json { render :show, status: :created, location: @topic }
+        format.html { redirect_to topic_path(@topic), notice: t('success') }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @topic.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -34,7 +30,7 @@ class TopicsController < ApplicationController
   def set_topic
     @topic = Topic.find(params[:id])
   rescue StandardError
-    flash['alert'] = 'Sorry topic was not found. Please try again'
+    flash['alert'] = t('alert')
     redirect_to root_path
   end
 

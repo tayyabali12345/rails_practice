@@ -1,23 +1,20 @@
-
-<%# <%= link_to 'Add Topic', questions_path, :class=> "btn btn-info" %>
-
 <%= link_to "Create Topic", new_topic_path, :class=>'btn btn-success' %>
 <%= link_to "Add Question", new_question_path, :class=>'btn btn-success' %>
 <%= link_to "Follow Topics", topics_path, :class=>'btn btn-success' %>
+<%= link_to "About Page", home_about_path(current_user.id), :class=>'btn btn-success' %>
 
-
-<%= search_form_for @searched do |f| %>
-  <%= f.label :title_cont %>
-  <%= f.search_field :title_cont , html:{autocomplete: "false"} %>
-  <%= f.submit %>
-<% end %>
-
-<h2 >The Question Posted!</h2>
+<div class="container">
+  <%= search_form_for @searched do |f| %>
+    <%= f.label :title_cont %>
+    <%= f.search_field :title_cont , html:{autocomplete: "false"} %>
+    <%= f.submit %>
+  <% end %>
+</div>
 
 <table>
   <thead>
     <tr>
-      <th colspan="5"></th>
+      <th colspan="8"><%="THE QUESTIONS POSTED!"%></th>
     </tr>
   </thead>
   <tbody>
@@ -26,65 +23,89 @@
       <th><%='DESCRIPTION'%></th>
       <th><%='LIKES'%></th>
       <th><%='DISLIKES'%></th>
-      <th><%='ACTIONS'%></th>
+      <th colspan="3"><%='ACTIONS'%></th>
+      <th><%='POST ANSWER'%></th>
     </tr>
     <% @questions.each do |question| %>
     <tr>
       <td><%=question.subject%></td>
       <td><%=question.description%></td>
-
       <td>
-        <%= form_with url: question_like_question_url(question.id), method: :patch do |form| %>
-            <%= form.submit question.likes%>
-        <% end %>
+        <%if session[:question_likes] != nil%>
+            <%if !session[:question_likes].include? question.id%>
+               <%= form_with url: question_like_question_url(question.id), method: :patch do |form| %>
+                  <%= form.submit question.likes%>
+               <% end %>
+            <%else%>
+                 <%= question.likes%>
+            <%end%>
+          <%else%>
+             <%= form_with url: question_like_question_url(question.id), method: :patch do |form| %>
+                  <%= form.submit question.likes%>
+             <% end %>
+          <%end%>
       </td>
-
       <td>
-        <%= form_with url: question_dislike_question_url(question.id), method: :patch do |form| %>
-            <%= form.submit question.dislikes%>
-        <% end %>
+        <%if session[:question_dislikes] != nil%>
+            <%if !session[:question_dislikes].include? question.id%>
+                <%= form_with url: question_dislike_question_url(question.id), method: :patch do |form| %>
+                  <%= form.submit question.dislikes%>
+                <% end %>
+            <%else%>
+                 <%= question.dislikes%>
+            <%end%>
+          <%else%>
+              <%= form_with url: question_dislike_question_url(question.id), method: :patch do |form| %>
+                <%= form.submit question.dislikes%>
+              <% end %>
+          <%end%>
       </td>
       <td><%= link_to 'Show', question, :class=>"btn btn-primary" %></td>
-      <td><%= link_to question do %><i class="bi bi-hand-thumbs-up"></i><% end %></td>
+      <td><%= link_to "About User", home_profile_path(question.user.id), :class=>'btn btn-success' %><td>
       <td><%= render 'answers/form', :locals => { :answer => question.answers.new } %></td>
     </tr>
     <tr>
-    <td><%='Answers!' %></td>
+      <th colspan="8"><%='Answers!' %></th>
     </tr>
-
-
       <%question.answers.order(likes: :desc).limit(2).each do |answer|%>
-      <tr>
-
-        <td><%= answer.description%></td>
-
-        <td>
-          <%if session[:id] != nil%>
-            <%if !session[:id].include? answer.id%>
-                <%= form_with url: answer_like_answer_url(answer.id), method: :patch do |form| %>
-                    <%= form.submit answer.likes%>
-                <% end %>
+        <tr>
+          <td></td>
+          <td><%= answer.description%></td>
+          <td>
+            <%if session[:answer_likes] != nil%>
+              <%if !session[:answer_likes].include? answer.id%>
+                  <%= form_with url: answer_like_answer_url(answer.id), method: :patch do |form| %>
+                      <%= form.submit answer.likes%>
+                  <% end %>
+              <%else%>
+                  <%= answer.likes%>
+              <%end%>
             <%else%>
-                 <%= answer.likes%>
+                <%= form_with url: answer_like_answer_url(answer.id), method: :patch do |form| %>
+                      <%= form.submit answer.likes%>
+                <% end %>
             <%end%>
-          <%else%>
-              <%= form_with url: answer_like_answer_url(answer.id), method: :patch do |form| %>
-                    <%= form.submit answer.likes%>
-              <% end %>
-          <%end%>
-        </td>
+          </td>
 
-        <td>
-          <%= form_with url: answer_dislike_answer_url(answer.id), method: :patch do |form| %>
-              <%= form.submit answer.dislikes%>
-          <% end %>
-        </td>
-      </tr>
-
-
+          <td>
+            <%if session[:answer_dislikes] != nil%>
+              <%if !session[:answer_dislikes].include? answer.id%>
+                  <%= form_with url: answer_dislike_answer_url(answer.id), method: :patch do |form| %>
+                      <%= form.submit answer.dislikes%>
+                  <% end %>
+              <%else%>
+                  <%= answer.dislikes%>
+              <%end%>
+            <%else%>
+                <%= form_with url: answer_dislike_answer_url(answer.id), method: :patch do |form| %>
+                      <%= form.submit answer.dislikes%>
+                <% end %>
+            <%end%>
+          </td>
+          <td colspan="4"><%= link_to "About User", home_profile_path(answer.user.id), :class=>'btn btn-success' %><td>
+        </tr>
       <%end%>
-
-      <% end %>
+    <% end %>
   </tbody>
 </table>
 

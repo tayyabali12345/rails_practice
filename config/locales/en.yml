@@ -31,3 +31,9 @@
 
 en:
   hello: "Hello world"
+  success: "Sucessfully Created"
+  alert: "Record Not Found: Try again later"
+  destroy: "Record deleted successfully."
+  image_message: "The size of image should be less than less_than: 1.megabytes"
+
+

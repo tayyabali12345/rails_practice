@@ -2,38 +2,20 @@
 
 Rails.application.routes.draw do
   devise_for :users
-
   root to: 'homes#show'
-  resources :topics
-  resources :questions do
+  resources :homes, only: [:show] do
+    get :about
+    get :profile
+  end
+  resources :topics, except: %i[edit update destroy]
+  resources :questions, except: %i[edit update destroy] do
     patch :dislike_question
     patch :like_question
   end
-  resources :answers do
+  resources :answers, only: [:create] do
     patch :dislike_answer
     patch :like_answer
   end
-
-  resources :followings
-  # resources :products do
-  #   resources :comments, except: %i[new show]
-  # end
-  # resource :carts, only: [:show]
-  # resources :order_items
-  # namespace :paypal do
-  #   resources :checkouts, only: [:create] do
-  #     collection do
-  #       get :complete
-  #     end
-  #   end
-  # end
-  # # get '*path' => redirect('/')
-
-
-
-  # namespace :api do
-  #   namespace :v1 do
-  #     resources :products
-  #   end
-  # end
+  resources :followings, only: %i[create destroy]
+  get '*path' => redirect('/')
 end

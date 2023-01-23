@@ -1,8 +1,8 @@
 # README
 
-# E-Commerce System
+# QUORA System
 * ## Introduction
-In this project we build a E-Commerce System based on the users interaction. It essentially work for seller and buyer. We used Paypal for payment integeration. It contains two types of users
+In this project we build a QUORA System based on the users interaction. It essentially work for seller and buyer. We used Paypal for payment integeration. It contains two types of users
 - Seller which can sell products, edit, delete their own products
 - Buyer can who can purchase desired products and make payment to system
 ## Features
