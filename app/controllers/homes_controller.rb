@@ -24,8 +24,5 @@ class HomesController < ApplicationController
 
   def set_user
     @user = User.find(params[:home_id])
-  rescue StandardError
-    flash['alert'] = t('alert')
-    redirect_to root_path
   end
 end

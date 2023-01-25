@@ -33,14 +33,14 @@
       <td>
         <%if session[:question_likes] != nil%>
             <%if !session[:question_likes].include? question.id%>
-               <%= form_with url: question_like_question_url(question.id), method: :patch do |form| %>
+               <%= form_with url: question_like_url(question.id), method: :patch do |form| %>
                   <%= form.submit question.likes%>
                <% end %>
             <%else%>
                  <%= question.likes%>
             <%end%>
           <%else%>
-             <%= form_with url: question_like_question_url(question.id), method: :patch do |form| %>
+             <%= form_with url: question_like_url(question.id), method: :patch do |form| %>
                   <%= form.submit question.likes%>
              <% end %>
           <%end%>
@@ -48,14 +48,14 @@
       <td>
         <%if session[:question_dislikes] != nil%>
             <%if !session[:question_dislikes].include? question.id%>
-                <%= form_with url: question_dislike_question_url(question.id), method: :patch do |form| %>
+                <%= form_with url: question_dislike_url(question.id), method: :patch do |form| %>
                   <%= form.submit question.dislikes%>
                 <% end %>
             <%else%>
                  <%= question.dislikes%>
             <%end%>
           <%else%>
-              <%= form_with url: question_dislike_question_url(question.id), method: :patch do |form| %>
+              <%= form_with url: question_dislike_url(question.id), method: :patch do |form| %>
                 <%= form.submit question.dislikes%>
               <% end %>
           <%end%>
@@ -74,14 +74,14 @@
           <td>
             <%if session[:answer_likes] != nil%>
               <%if !session[:answer_likes].include? answer.id%>
-                  <%= form_with url: answer_like_answer_url(answer.id), method: :patch do |form| %>
+                  <%= form_with url: answer_like_url(answer.id), method: :patch do |form| %>
                       <%= form.submit answer.likes%>
                   <% end %>
               <%else%>
                   <%= answer.likes%>
               <%end%>
             <%else%>
-                <%= form_with url: answer_like_answer_url(answer.id), method: :patch do |form| %>
+                <%= form_with url: answer_like_url(answer.id), method: :patch do |form| %>
                       <%= form.submit answer.likes%>
                 <% end %>
             <%end%>
@@ -89,14 +89,14 @@
           <td>
             <%if session[:answer_dislikes] != nil%>
               <%if !session[:answer_dislikes].include? answer.id%>
-                  <%= form_with url: answer_dislike_answer_url(answer.id), method: :patch do |form| %>
+                  <%= form_with url: answer_dislike_url(answer.id), method: :patch do |form| %>
                       <%= form.submit answer.dislikes%>
                   <% end %>
               <%else%>
                   <%= answer.dislikes%>
               <%end%>
             <%else%>
-                <%= form_with url: answer_dislike_answer_url(answer.id), method: :patch do |form| %>
+                <%= form_with url: answer_dislike_url(answer.id), method: :patch do |form| %>
                       <%= form.submit answer.dislikes%>
                 <% end %>
             <%end%>

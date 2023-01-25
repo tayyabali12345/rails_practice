@@ -2,8 +2,9 @@
 
 class QuestionsController < ApplicationController
   before_action :set_question, only: %i[show]
-  before_action :set_create, only: %i[create]
-  before_action :set_ids, only: %i[dislike_question like_question]
+  before_action :set_params, only: %i[create]
+  before_action :set_session, only: %i[dislike like]
+  before_action :find_question, only: %i[dislike like]
 
   def index
     @questions = Topic.find(params[:topic_id]).questions
@@ -28,40 +29,37 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def dislike_question
+  def dislike
     @question.increment(:dislikes, 1)
     @question.save
-    session[:question_dislikes] ||= []
     session[:question_dislikes].append(@question.id)
     redirect_to root_path
   end
 
-  def like_question
+  def like
     @question.increment(:likes, 1)
     @question.save
-    session[:question_likes] ||= []
     session[:question_likes].append(@question.id)
     redirect_to root_path
   end
 
   private
 
-  def set_ids
+  def find_question
     @question = Question.find(params[:question_id])
-  rescue StandardError
-    flash['alert'] = t('alert')
-    redirect_to root_path
   end
 
   def set_question
     @question = Question.find(params[:id])
     @answers = @question.answers.order(likes: :desc)
-  rescue StandardError
-    flash['alert'] = t('alert')
-    redirect_to root_path
   end
 
-  def set_create
+  def set_session
+    session[:question_likes] ||= []
+    session[:question_dislikes] ||= []
+  end
+
+  def set_params
     @question = Question.new(question_params)
     @question.user_id = current_user.id
   end

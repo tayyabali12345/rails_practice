@@ -2,7 +2,7 @@
 
 class TopicsController < ApplicationController
   before_action :set_topic, only: %i[show]
-  before_action :set_create, only: %i[create]
+  before_action :set_params, only: %i[create]
 
   def index
     @searched = Topic.ransack(params[:q])
@@ -29,12 +29,9 @@ class TopicsController < ApplicationController
 
   def set_topic
     @topic = Topic.find(params[:id])
-  rescue StandardError
-    flash['alert'] = t('alert')
-    redirect_to root_path
   end
 
-  def set_create
+  def set_params
     @topic = Topic.new(topic_params)
     @topic.user_id = current_user.id
   end

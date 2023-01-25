@@ -4,17 +4,17 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'homes#show'
   resources :homes, only: [:show] do
-    get :about
-    get :profile
+    get :about # member route
+    get :profile # member route
   end
-  resources :topics, except: %i[edit update destroy]
-  resources :questions, except: %i[edit update destroy] do
-    patch :dislike_question
-    patch :like_question
+  resources :topics, only: %i[index show new create]
+  resources :questions, only: %i[index show new create] do
+    patch :dislike   # member route
+    patch :like      # member route
   end
   resources :answers, only: [:create] do
-    patch :dislike_answer
-    patch :like_answer
+    patch :dislike   # member route
+    patch :like      # member route
   end
   resources :followings, only: %i[create destroy]
   get '*path' => redirect('/')
