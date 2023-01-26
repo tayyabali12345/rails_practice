@@ -1,39 +1,41 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  before_action :set_session, only: %i[dislike like]
   before_action :set_answer, only: %i[dislike like]
 
   def create
-    respond_to do |format|
-      if answer.save
-        format.html { redirect_to root_path, notice: t('success') }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
+    if answer.save
+      redirect_to root_path, notice: t('success')
+    else
+      render :new
     end
   end
 
   def like
-    @answer.increment(:likes, 1)
-    @answer.save
-    session[:answer_likes].append(@answer.id)
+    @approval = Approval.find_by(approvable: @answer, user_id: current_user.id)
+    if @approval.nil?
+      Approval.create(approvable: @answer, user_id: current_user.id, like: true)
+    else
+      @approval.update(like: true, dislike: false)
+    end
     redirect_to root_path
   end
 
   def dislike
-    @answer.increment(:dislikes, 1)
-    @answer.save
-    session[:answer_dislikes].append(@answer.id)
+    @approval = Approval.find_or_initialize_by(approvable: @answer, user_id: current_user.id)
+    if @approval.save(dislike: true)
+      # Approval.create(approvable: @answer, user_id: current_user.id, dislike: true)
+    else
+      # @approval.update(dislike: true, like: false)
+    end
+
     redirect_to root_path
   end
 
   private
 
   def answer
-    @answer = Answer.new(answer_params)
-    @answer.user_id = current_user.id
-    @answer.question_id = params[:question_id]
+    @answer = current_user.answers.new(answer_params)
   end
 
   def set_answer
@@ -41,11 +43,6 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:description)
-  end
-
-  def set_session
-    session[:answer_dislikes] ||= []
-    session[:answer_likes] ||= []
+    params.require(:answer).permit(:description, :question_id)
   end
 end

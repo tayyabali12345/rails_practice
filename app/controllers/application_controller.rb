@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  rescue_from ActiveRecord::RecordNotFound, with: :not_found
-  before_action :authenticate_user!
   include ApplicationHelper
+
+  before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
+
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   protected
 

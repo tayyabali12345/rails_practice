@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class HomesController < ApplicationController
-  before_action :set_user, only: %i[profile]
+  # before_action :set_user, only: %i[profile]
 
   def show
     @searched = Topic.ransack(params[:q])
@@ -10,19 +10,18 @@ class HomesController < ApplicationController
   end
 
   def about
-    @user = current_user
-    @questions = @user.questions
-    @followed_topics = @user.user_topics
+    @questions = current_user.questions
+    @followed_topics = current_user.user_topics
   end
 
   def profile
-    @questions = @user.questions
-    @answers = @user.answers.eager_load(:question)
+    @questions = user.questions
+    @answers = user.answers.eager_load(:question)
   end
 
   private
 
-  def set_user
-    @user = User.find(params[:home_id])
+  def user
+    @user ||= User.find(params[:home_id])
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_23_163717) do
+ActiveRecord::Schema.define(version: 2023_01_25_113528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,24 +38,36 @@ ActiveRecord::Schema.define(version: 2023_01_23_163717) do
 
   create_table "answers", force: :cascade do |t|
     t.string "description", default: ""
-    t.integer "likes", default: 0
-    t.integer "dislikes", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "question_id"
     t.bigint "user_id"
+    t.integer "likes"
+    t.integer "dislikes"
     t.index ["question_id"], name: "index_answers_on_question_id"
     t.index ["user_id"], name: "index_answers_on_user_id"
+  end
+
+  create_table "approvals", force: :cascade do |t|
+    t.string "approvable_type"
+    t.bigint "approvable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.boolean "like", default: false
+    t.boolean "dislike", default: false
+    t.index ["approvable_type", "approvable_id"], name: "index_approvals_on_approvable_type_and_approvable_id"
+    t.index ["user_id"], name: "index_approvals_on_user_id"
   end
 
   create_table "questions", force: :cascade do |t|
     t.string "subject", default: ""
     t.string "description", default: ""
-    t.integer "likes", default: 0
-    t.integer "dislikes", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.integer "dislikes"
+    t.integer "likes"
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
@@ -112,6 +124,7 @@ ActiveRecord::Schema.define(version: 2023_01_23_163717) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users"
+  add_foreign_key "approvals", "users"
   add_foreign_key "questions", "users"
   add_foreign_key "topic_questions", "questions"
   add_foreign_key "topic_questions", "topics"

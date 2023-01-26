@@ -3,7 +3,6 @@
 class QuestionsController < ApplicationController
   before_action :set_question, only: %i[show]
   before_action :set_params, only: %i[create]
-  before_action :set_session, only: %i[dislike like]
   before_action :find_question, only: %i[dislike like]
 
   def index
@@ -30,16 +29,22 @@ class QuestionsController < ApplicationController
   end
 
   def dislike
-    @question.increment(:dislikes, 1)
-    @question.save
-    session[:question_dislikes].append(@question.id)
+    @approval = Approval.find_by(approvable: @question, user_id: current_user.id)
+    if @approval.nil?
+      Approval.create(approvable: @question, user_id: current_user.id, dislike: true)
+    else
+      @approval.update(dislike: true, like: false)
+    end
     redirect_to root_path
   end
 
   def like
-    @question.increment(:likes, 1)
-    @question.save
-    session[:question_likes].append(@question.id)
+    @approval = Approval.find_by(approvable: @question, user_id: current_user.id)
+    if @approval.nil?
+      Approval.create(approvable: @question, user_id: current_user.id, like: true)
+    else
+      @approval.update(dislike: false, like: true)
+    end
     redirect_to root_path
   end
 
@@ -50,13 +55,8 @@ class QuestionsController < ApplicationController
   end
 
   def set_question
-    @question = Question.find(params[:id])
+    @question = Question.include(:answers).find(params[:id])
     @answers = @question.answers.order(likes: :desc)
-  end
-
-  def set_session
-    session[:question_likes] ||= []
-    session[:question_dislikes] ||= []
   end
 
   def set_params

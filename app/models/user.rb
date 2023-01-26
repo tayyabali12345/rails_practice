@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :user_topics, dependent: :destroy
   has_many :topics, through: :user_topics
+  has_many :approvals, dependent: :destroy
 
   validates :image,
             content_type: %i[gif png jpg jpeg],
