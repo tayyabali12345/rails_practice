@@ -31,9 +31,9 @@
       <td><%=question.subject%></td>
       <td><%=question.description%></td>
       <td>
-       <%= form_with url: question_like_url(question.id), method: :patch do |form| %>
-          <%= form.submit question.approvals.where(like: true).count%>
-        <% end %>
+          <%= form_with url: question_like_url(question.id), method: :patch do |form| %>
+            <%= form.submit question.approvals.where(like: true).count%>
+          <% end %>
       </td>
       <td>
         <%= form_with url: question_dislike_url(question.id), method: :patch do |form| %>
